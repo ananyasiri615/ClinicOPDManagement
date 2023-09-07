@@ -1,9 +1,13 @@
 package com.ars.request;
 
-import java.sql.Time;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.sql.Time;
+
 public class RescheduleRequest {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
 	public Date newDate;
 	public Time newTime;
 	

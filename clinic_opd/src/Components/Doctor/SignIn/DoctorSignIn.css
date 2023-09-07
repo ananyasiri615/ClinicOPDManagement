@@ -1,49 +1,49 @@
-/* PatientSignIn.css */
+/* DoctorSignIn.css */
 
-.admin-login-container {
+
+.admin-login-container{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
-.login-card {
+.login-card{
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Vertically center items */
-    align-items: center; /* Horizontally center items */
+    justify-content: center;
+    align-items: center;
     max-width: 35%;
     margin: 10px;
     padding: 20px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    background-color: #fff;
+    background-color: white;
 }
 
-
-.bi1{
+.bi{
     font-size: 70px;
-    color: dodgerblue;
+    color: black;
 }
 
-.card-title {
+.card-title{
     font-size: 20px;
     margin-bottom: 15px;
 }
 
-.form-label {
+.form-label{
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-.form-control {
+.form-control{
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;
 }
 
-.btn-primary {
+.btn-primary{
     background-color: #007bff;
     border: none;
     width: 100%;

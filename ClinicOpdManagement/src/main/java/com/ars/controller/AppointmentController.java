@@ -2,8 +2,10 @@ package com.ars.controller;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,35 +43,39 @@ public class AppointmentController {
     }
 
     @GetMapping("/allAppointments")
+	@CrossOrigin(origins = "http://localhost:3000")
     public Iterable<Appointment> getAllAppointments() {
         return appointmentService.getAllApp();
     }
 
     @PostMapping("/bookAppointment")
+	@CrossOrigin(origins = "http://localhost:3000")
     public String bookAppointment(@RequestBody Appointment appointment) {
         Patient patient = patientService.findById(appointment.getPatient().getP_id());
         Doctor doctor = doctorService.findById(appointment.getDoctor().getDoc_id());
 
         appointment.setPatient(patient);
         appointment.setDoctor(doctor);
-        appointment.setAppointmentDate(appointment.getAppointmentDate());
-   	    appointment.setAppointmentTime(appointment.getAppointmentTime());
+//        appointment.setAppointmentDate(appointment.getAppointmentDate());
+//   	    appointment.setAppointmentTime(appointment.getAppointmentTime());
         appointmentService.addAppointment(appointment);
         return "Appointment booked successfully";
     }
     
     @DeleteMapping("/cancelAppointment/{app_id}")
+	@CrossOrigin(origins = "http://localhost:3000")
     public String cancelAppointment(@PathVariable int app_id) {
         appointmentService.cancelAppointment(app_id);
         return "Appointment canceled successfully";
     }
 
     @PutMapping("/rescheduleAppointment/{app_id}")
+	@CrossOrigin(origins = "http://localhost:3000")
     public String rescheduleAppointment(
         @PathVariable int app_id,
         @RequestBody RescheduleRequest rescheduleRequest) {
 
-        Date rescheduledDate = rescheduleRequest.getNewDate();
+    	Date rescheduledDate = rescheduleRequest.getNewDate();
         Time rescheduledTime = rescheduleRequest.getNewTime();
 
         appointmentService.rescheduleAppointment(app_id, rescheduledDate, rescheduledTime);
@@ -77,5 +83,11 @@ public class AppointmentController {
         return "Appointment rescheduled successfully";
     }
 
+    @GetMapping("/getAppointmentByDate/{appointmentDate}")
+    public List<Appointment> getAppointmentByDate(@PathVariable Date date){
+    	
+    	return appointmentService.getAppointmentByDate(date);
+    }
+   
 	
 }

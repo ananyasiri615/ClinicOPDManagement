@@ -2,6 +2,7 @@ package com.ars.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,27 +32,32 @@ public class QueueController {
     }
 
     @GetMapping("/all")
+	@CrossOrigin(origins = "http://localhost:3000")
     public List<Queue> getAllqueues() {
         return queueService.findAll();
     }
 
     @GetMapping("/id/{q_id}")
+	@CrossOrigin(origins = "http://localhost:3000")
     public Queue getqueueById(@PathVariable Integer q_id) {
         return queueService.findById(q_id);
     }
 
     @PostMapping("/create")
+	@CrossOrigin(origins = "http://localhost:3000")
     public Queue createqueue(@RequestBody Queue queue) {
         return queueService.save(queue);
     }
 
     @PutMapping("/update/{q_id}")
+	@CrossOrigin(origins = "http://localhost:3000")
     public Queue updatequeue(@PathVariable Integer q_id, @RequestBody Queue queue) {
         queue.setQ_id(q_id);
         return queueService.save(queue);
     }
 
     @DeleteMapping("/delete/{q_id}")
+	@CrossOrigin(origins = "http://localhost:3000")
     public void delete(@PathVariable Integer q_id) {
     	Queue queue = queueService.findById(q_id);
         if (queue != null) {

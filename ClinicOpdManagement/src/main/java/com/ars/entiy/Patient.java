@@ -1,5 +1,6 @@
 package com.ars.entiy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -31,6 +32,10 @@ public class Patient {
     
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
 	private List<Appointment> appointments;
+    
+//    List<Patient> patients = new ArrayList<>();
+//    Patient patient = patients.get(email); // Replace 'index' with the desired index
+
     
 	public int getP_id() {
 		return p_id;

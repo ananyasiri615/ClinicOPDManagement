@@ -3,6 +3,7 @@ package com.ars.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,27 +24,32 @@ public class ReminderController {
     private ReminderService reminderService;
 
     @GetMapping("/all")
+	@CrossOrigin(origins = "http://localhost:3000")
     public List<Reminder> getAllReminders() {
         return reminderService.findAll();
     }
 
     @GetMapping("/id/{r_id}")
+	@CrossOrigin(origins = "http://localhost:3000")
     public Reminder getReminderById(@PathVariable int r_id) {
         return reminderService.findById(r_id);
     }
 
     @PostMapping("/create")
+	@CrossOrigin(origins = "http://localhost:3000")
     public Reminder createReminder(@RequestBody Reminder reminder) {
         return reminderService.createReminder(reminder);
     }
 
     @PutMapping("/update/{r_id}")
+	@CrossOrigin(origins = "http://localhost:3000")
     public Reminder updateReminder(@PathVariable int r_id, @RequestBody Reminder reminder) {
         reminder.setR_id(r_id);
         return reminderService.updateReminder(r_id, reminder);
     }
 
     @DeleteMapping("/delete/{r_id}")
+	@CrossOrigin(origins = "http://localhost:3000")
     public void delete(@PathVariable int r_id) {
 		Reminder reminder = reminderService.findById(r_id);
         if (reminder != null) {

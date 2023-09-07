@@ -45,8 +45,8 @@ public class AppointmentService {
     	Doctor doctor = doctorService.findById(appointment.getDoctor().getDoc_id());
    	    appointment.setPatient(patient);
    	    appointment.setDoctor(doctor);
-   	    appointment.setAppointmentDate(appointment.getAppointmentDate());
-   	    appointment.setAppointmentTime(appointment.getAppointmentTime());
+//   	    appointment.setAppointmentDate(data.get("appointmentDate"));
+//   	    appointment.setAppointmentTime(appointment.getAppointmentTime());
    	    Appointment savedAppointment = appointmentRepository.save(appointment);
    	    Reminder reminder = new Reminder();
    	    reminder.setReminderDate(appointment.getAppointmentDate());
@@ -99,5 +99,9 @@ public class AppointmentService {
         } else {
             throw new AppointmentNotFoundException("Appointment with ID " + app_id + " not found");
         }
+    }
+    
+    public List<Appointment> getAppointmentByDate(Date date) {
+        return appointmentRepository.findByAppointmentDate(date);
     }
 }

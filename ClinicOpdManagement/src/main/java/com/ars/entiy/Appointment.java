@@ -10,9 +10,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import java.sql.Time;
 import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "appointments")
@@ -29,7 +32,8 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "doc_id")
     private Doctor doctor;
-
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
     private Date appointmentDate;
     private Time appointmentTime;
     private String status;

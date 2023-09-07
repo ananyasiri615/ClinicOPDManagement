@@ -7,6 +7,7 @@ import com.ars.entiy.Patient;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Integer>{
-	
+	Patient findByEmail(String email);
+
 }
 

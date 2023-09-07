@@ -15,7 +15,7 @@ const Navbar = () => {
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/OurDoctor">Our Doctors</Link>
+              <Link className="nav-link" to="/ViewDoctors">Our Doctors</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/AboutUs">About Us</Link>
@@ -24,25 +24,13 @@ const Navbar = () => {
               <Link className="nav-link" to="/ContactHospital">Contact Us</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/registration">Patient Registration</Link>
-            </li>
-            <li className="nav-item">
               <Link className="nav-link" to="/PatientSignIn">Patient SignIn</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/SignIn"> Admin SignIn</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/DoctorSignIn">Doctor SignIn</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/registrationDoctor">Doctor Registration</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/AppointmentsPage">Create Appointment</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/SuccessAnimation">Success</Link>
+              <Link className="nav-link" to="/SignIn"> Admin SignIn</Link>
             </li>
           </ul>
         </div>

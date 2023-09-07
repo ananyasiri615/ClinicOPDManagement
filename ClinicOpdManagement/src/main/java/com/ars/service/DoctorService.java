@@ -34,6 +34,10 @@ public class DoctorService {
 		return doctorRepository.findAll();
 	}
 	
+	public Doctor getDoctorByEmail(String email){
+		return doctorRepository.findByEmail(email);
+	}
+	
 	
 
 }

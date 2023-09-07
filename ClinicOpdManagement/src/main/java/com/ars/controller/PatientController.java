@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ars.entiy.Patient;
+import com.ars.entiy.PatientLogin;
 import com.ars.service.PatientService;
 
 @RestController
@@ -33,11 +34,13 @@ public class PatientController {
     }
 
     @GetMapping("/all")
+	@CrossOrigin(origins = "http://localhost:3000")
     public List<Patient> getAllPatients() {
         return patientService.findAll();
     }
 
     @GetMapping("/id/{p_id}")
+	@CrossOrigin(origins = "http://localhost:3000")
     public Patient getPatientById(@PathVariable Integer p_id) {
         return patientService.findById(p_id);
     }
@@ -49,17 +52,33 @@ public class PatientController {
     }
 
     @PutMapping("/update/{p_id}")
+	@CrossOrigin(origins = "http://localhost:3000")
     public Patient updatePatient(@PathVariable Integer p_id, @RequestBody Patient patient) {
         patient.setP_id(p_id);
         return patientService.save(patient);
     }
 
     @DeleteMapping("/delete/{p_id}")
+	@CrossOrigin(origins = "http://localhost:3000")
     public void delete(@PathVariable Integer p_id) {
 		Patient patient = patientService.findById(p_id);
         if (patient != null) {
         	patientService.deleteById(p_id);
         }
+    }
+    
+    @PostMapping("/login")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public Patient PatientLogin(@RequestBody PatientLogin request) {
+    	Patient patient = patientService.getPatientByEmail(request.getEmail());
+        if (patient == null) {
+            return null;
+        }
+		else if(!patient.getPassword().equals(request.getPassword())){
+			return null;
+		}
+
+        return patient;
     }
 
 }

@@ -1,15 +1,15 @@
+import axios from "axios";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
-import axios from "axios";
-import "./PatientSignIn.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
+import "./DoctorSignIn.css"
 
-function PatientSignIn() {
+function DoctorSignIn() {
   const [login, setLogin] = useState(false);
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
 
-  const handlePatientSubmit = (event) => {
+  const handleDoctorSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
@@ -21,12 +21,12 @@ function PatientSignIn() {
     // Make a POST request to the backend /login endpoint
     console.log(userInput);
     axios
-      .post("http://localhost:8081/patients/login", userInput)
+      .post("http://localhost:8081/doctors/login", userInput)
       .then((response) => {
         console.log(response.data);
         if (response.data) {
           setLogin(true);
-          localStorage.setItem("token", response.data.p_id);
+          localStorage.setItem("token", response.data.doc_id);
           console.log("User logged in:", response.data);
         } else {
           setLogin(false);
@@ -47,9 +47,9 @@ function PatientSignIn() {
   return (
     <div className="admin-login-container">
       <div className="login-card">
-        <i className="bi1 bi-clipboard-pulse" />
-        <h2 className="card-title text-center">Patient Login</h2>
-        <form onSubmit={handlePatientSubmit}>
+        <i className="bi bi-clipboard-pulse" />
+        <h2 className="card-title text-center">Doctor Login</h2>
+        <form onSubmit={handleDoctorSubmit}>
           <div className="mb-3">
             <label htmlFor="Email" className="form-label">
               Email
@@ -80,10 +80,7 @@ function PatientSignIn() {
             Login
           </button>
           <p class="pb-lg-2 text-center" style={{ color: "#393f81" }}>
-            Don't have an account? 
-            <a href="/registration" style={{ color: "#393f81" }}>
-              Register here
-            </a>
+            Don't have an account? Contact the admin
           </p>
         </form>
       </div>
@@ -91,4 +88,4 @@ function PatientSignIn() {
   );
 }
 
-export default PatientSignIn;
+export default DoctorSignIn;

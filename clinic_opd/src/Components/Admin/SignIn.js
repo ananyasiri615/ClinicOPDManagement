@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './SignIn.css'; // Make sure you have created this CSS file for styling
+import './SignIn.css'; 
 
 function SignIn() {
     const [adminUsername, setAdminUsername] = useState('');
@@ -20,6 +20,7 @@ function SignIn() {
     return (
         <div className="admin-login-container">
             <div className="login-card">
+            <i className="bi bi-clipboard-pulse" />
                 <h2 className="card-title text-center">Admin Login</h2>
                 <form onSubmit={handleAdminSubmit}>
                     <div className="mb-3">
