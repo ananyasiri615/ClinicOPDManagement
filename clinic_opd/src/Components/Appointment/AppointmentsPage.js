@@ -45,7 +45,7 @@ function AppointmentsPage() {
   return (
     <div className="register">
       <div className="form" onSubmit={handleRegistrationSubmit}>
-        <h2>Doctor Registration Details</h2>
+        <h2>New Appointment</h2>
         <div className="form-body">
           <div className="form__input p_id">
             <label className="form__label" htmlFor="p_id">

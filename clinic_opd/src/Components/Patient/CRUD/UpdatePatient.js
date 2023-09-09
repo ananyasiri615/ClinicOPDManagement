@@ -9,7 +9,6 @@ const UpdatePatient = () => {
 
   // Initialize the state for the selected option
   const [patientName, setPatientName] = useState(patients ? patients.patientName : "");
-  const [dateOfBirth, setDateOfBirth] = useState(patients? patients.dateOfBirth: "");
   const [age, setAge] = useState(patients ? patients.age : "");
   const [phoneNumber, setPhoneNumber] = useState(patients ? patients.phoneNumber : "");
   const [address, setAddress] = useState(patients ? patients.address : "");
@@ -26,21 +25,6 @@ const UpdatePatient = () => {
     setSelectedGender(event.target.value);
   };
 
-  
-  const handleDateOfBirthChange = (event) => {
-    const dob = event.target.value;
-    setDateOfBirth(dob);
-
-    if (dob) {
-      const today = new Date();
-      const birthDate = new Date(dob);
-      const calculatedAge = today.getFullYear() - birthDate.getFullYear();
-      setAge(calculatedAge);
-    } else {
-      setAge("");
-    }
-  };
-
   const handlePhoneNumberChange = (event) => {
     let number = event.target.value.replace(/\D/g, "");
     if (number.length > 10) {
@@ -52,7 +36,6 @@ const UpdatePatient = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
     // Create an object with the updated data
     const updatedPatientsData = {
       id: patients.p_id,
@@ -220,7 +203,6 @@ const UpdatePatient = () => {
                   //readOnly={readOnly}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-            
                 />
               </div>
               <div class="col-md-6 mb-4">

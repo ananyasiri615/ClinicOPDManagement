@@ -103,7 +103,7 @@ const ViewOneDoctor = () => {
             <button
                 class="btn btn-dark fw-semibold btn-lg btn-block text-light"
                 type="button"
-                onClick={()=>{navigate("/UpdateDoctor", { state: { doctors } });}}
+                onClick={()=>{navigate("/Doctor/UpdateDoctor", { state: { doctors } });}}
               >
                 Edit Doctor
               </button>

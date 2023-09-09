@@ -2,20 +2,22 @@ import React from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const ViewOnePatient = () => {
+const ViewOneSchedule = () => {
   const location = useLocation();
-  const patients = location.state.patients;
+  console.log(location);
+  const schedules =
+    location.state.schedules === null ? "" : location.state.schedules;
   const navigate = useNavigate();
 
-  const handlePatientDelete = (patients) => {
+  const handleScheduleDelete = (schedules) => {
     axios
-      .delete(`http://localhost:8081/patients/delete/${patients.p_id}`)
+      .delete(`http://localhost:8081/schedules/delete/${schedules.sch_id}`)
       .then((response) => {
         console.log(response.data);
         if (response.data) {
-          window.location.reload();
-          window.alert("Patient record Deleted Successfully.");
-          navigate("/ViewAndDeletePatients");
+          // window.location.reload();
+          window.alert("Schedule Deleted Successfully.");
+          navigate("/ViewAndDeleteSchedules");
         } else {
           console.log("Nothing happened");
         }
@@ -30,80 +32,74 @@ const ViewOnePatient = () => {
         <div class="container-md mt-3 px-5 text-center">
           <div class="container shadow border pb-3 bg-body-tertiary">
             <p class="fw-semibold mt-3 h2 text-secondary-emphasis text-center">
-              Patint Details
+              Schedule Details
             </p>
             <hr />
             <div class="row mb-3">
               <div class="col">
-                <p class="fw-semibold   text-end">p_id : </p>
+                <p class="fw-semibold   text-end">sch_id : </p>
               </div>
               <div class="col">
-                <p class="fw-semibold   text-start">{patients.p_id} </p>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col">
-                <p class="fw-semibold   text-end">Name : </p>
-              </div>
-              <div class="col">
-                <p class="fw-semibold   text-start">{patients.patientName} </p>
+                <p class="fw-semibold   text-start">{schedules.sch_id} </p>
               </div>
             </div>
             <div class="row mb-3">
               <div class="col">
-                <p class="fw-semibold   text-end">Age : </p>
+                <p class="fw-semibold   text-end">Doc_id : </p>
               </div>
               <div class="col">
-                <p class="fw-semibold   text-start">{patients.age} </p>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col">
-                <p class="fw-semibold   text-end">Gender : </p>
-              </div>
-              <div class="col">
-                <p class="fw-semibold   text-start">{patients.gender} </p>
+                <p class="fw-semibold   text-start">
+                  {schedules.doctor.doc_id}{" "}
+                </p>
               </div>
             </div>
             <div class="row mb-3">
               <div class="col">
-                <p class="fw-semibold   text-end">Contact Info : </p>
+                <p class="fw-semibold   text-end">Start Time : </p>
               </div>
               <div class="col">
-                <p class="fw-semibold   text-start">{patients.phoneNumber} </p>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col">
-                <p class="fw-semibold   text-end">Address : </p>
-              </div>
-              <div class="col">
-                <p class="fw-semibold   text-start">{patients.address} </p>
+                <p class="fw-semibold   text-start">
+                  {schedules.startTime === null ? "na" : schedules.startTime}{" "}
+                </p>
               </div>
             </div>
             <div class="row mb-3">
               <div class="col">
-                <p class="fw-semibold text-end">Medical History : </p>
+                <p class="fw-semibold   text-end">End TIme: </p>
               </div>
               <div class="col">
-                <p class="fw-semibold text-start">{patients.medicalHistory} </p>
+                <p class="fw-semibold   text-start">
+                  {schedules.endTime === null ? "na" : schedules.endTime}{" "}
+                </p>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <p class="fw-semibold   text-end">Availability: </p>
+              </div>
+              <div class="col">
+                <p class="fw-semibold   text-start">
+                  {schedules.availability === null
+                    ? "na"
+                    : schedules.availability}{" "}
+                </p>
               </div>
             </div>
             <button
               class="btn btn-dark fw-semibold btn-lg btn-block text-light"
               type="button"
               onClick={() => {
-                navigate("/Patient/UpdatePatient", { state: { patients } });
+                navigate("/Updateschedule", { state: { schedules } });
               }}
             >
-              Edit Patient
+              Edit schedule
             </button>
             <button
               type="button"
-              onClick={() => handlePatientDelete(patients)}
+              onClick={() => handleScheduleDelete(schedules)}
               class="btn ms-4 btn-dark fw-semibold btn-lg btn-block text-light"
             >
-              Delete Patient
+              Delete Schedule
             </button>
           </div>
         </div>
@@ -112,4 +108,4 @@ const ViewOnePatient = () => {
   );
 };
 
-export default ViewOnePatient;
+export default ViewOneSchedule;

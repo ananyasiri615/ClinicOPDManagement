@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const ViewAndDeleteDoctors = () => {
   const [tableItems, setTableItems] = useState([]);
   const navigate = useNavigate();
+  const doctortoken = localStorage.getItem("doctortoken")
 
   const getAllDoctors = () => {
     axios
@@ -17,6 +18,9 @@ const ViewAndDeleteDoctors = () => {
   };
   
   useEffect(() => getAllDoctors(), []);
+  // if(!doctortoken){
+  //   return <Navigate to = "/PatientSignIn"/>
+  // }
   return (
     <>
       <div class="container-md">
@@ -34,6 +38,7 @@ const ViewAndDeleteDoctors = () => {
               <th scope="col">Address</th>
               <th scope="col">Email</th>
               <th scope="col">Department</th>
+              <th scope="col">View</th>
             </tr>
           </thead>
           <tbody>
@@ -51,7 +56,7 @@ const ViewAndDeleteDoctors = () => {
                 <th scope="col">
                   <button
                     type="button"
-                    onClick={()=>{navigate("/ViewOneDoctor", { state: { doctors } });}}
+                    onClick={()=>{navigate("/Doctor/ViewOneDoctor", { state: { doctors } });}}
                     class="btn btn-outline-success"
                   >
                     View

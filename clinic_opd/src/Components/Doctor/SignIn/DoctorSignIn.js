@@ -26,7 +26,7 @@ function DoctorSignIn() {
         console.log(response.data);
         if (response.data) {
           setLogin(true);
-          localStorage.setItem("token", response.data.doc_id);
+          localStorage.setItem("doctortoken", response.data.doc_id);
           console.log("User logged in:", response.data);
         } else {
           setLogin(false);
@@ -41,7 +41,7 @@ function DoctorSignIn() {
   };
 
   if (login === true) {
-    return <Navigate to="/OurDoctor" />;
+    return <Navigate to="/ViewAndDeleteDoctors" />;
   }
 
   return (

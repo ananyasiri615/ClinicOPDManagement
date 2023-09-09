@@ -23,8 +23,9 @@ public class Schedule {
     private Doctor doctor;
 
     private String dayOfWeek;
-    private Time timeslot;
-    private Boolean availability;
+    private Time startTime;
+    private Time endTime;
+    private String availability;
     
 	public int getSch_id() {
 		return sch_id;
@@ -44,34 +45,39 @@ public class Schedule {
 	public void setDayOfWeek(String dayOfWeek) {
 		this.dayOfWeek = dayOfWeek;
 	}
-	public Time getTimeslot() {
-		return timeslot;
-	}
-	public void setTimeslot(Time timeslot) {
-		this.timeslot = timeslot;
-	}
-	public Boolean getAvailability() {
+	public String getAvailability() {
 		return availability;
 	}
-	public void setAvailability(Boolean availability) {
+	public void setAvailability(String availability) {
 		this.availability = availability;
 	}
-	
-	public Schedule(int sch_id, Doctor doctor, String dayOfWeek, Time timeslot, Boolean availability) {
-		super();
-		this.sch_id = sch_id;
-		this.doctor = doctor;
-		this.dayOfWeek = dayOfWeek;
-		this.timeslot = timeslot;
-		this.availability = availability;
+	public Time getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Time startTime) {
+		this.startTime = startTime;
+	}
+	public Time getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(Time endTime) {
+		this.endTime = endTime;
 	}
 	public Schedule() {
 		super();
 	}
-	
+	public Schedule(int sch_id, Doctor doctor, String dayOfWeek, Time startTime, Time endTime, String availability) {
+		super();
+		this.sch_id = sch_id;
+		this.doctor = doctor;
+		this.dayOfWeek = dayOfWeek;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.availability = availability;
+	}
 	@Override
 	public String toString() {
-		return "Schedule [sch_id=" + sch_id + ", doctor=" + doctor + ", dayOfWeek=" + dayOfWeek + ", timeslot="
-				+ timeslot + ", availability=" + availability + "]";
+		return "Schedule [sch_id=" + sch_id + ", doctor=" + doctor + ", dayOfWeek=" + dayOfWeek + ", startTime="
+				+ startTime + ", endTime=" + endTime + ", availability=" + availability + "]";
 	}
 }   

@@ -21,7 +21,7 @@ const ViewAndDeletePatients = () => {
     <>
       <div class="container-md">
         <br />
-        <h1 class="text-success">Patients Info</h1>
+        <h1 class="text-info">Patients Info</h1>
         <br />
         <table class="table table-striped table-hover">
           <thead>
@@ -34,6 +34,7 @@ const ViewAndDeletePatients = () => {
               <th scope="col">Address</th>
               <th scope="col">Email</th>
               <th scope="col">Medical History</th>
+              <th scope="col">View</th>
             </tr>
           </thead>
           <tbody>
@@ -51,7 +52,7 @@ const ViewAndDeletePatients = () => {
                 <th scope="col">
                   <button
                     type="button"
-                    onClick={()=>{navigate("/ViewOnePatient", { state: { patients } });}}
+                    onClick={()=>{navigate("/Patient/ViewOnePatient", { state: { patients } });}}
                     class="btn btn-outline-success"
                   >
                     View
