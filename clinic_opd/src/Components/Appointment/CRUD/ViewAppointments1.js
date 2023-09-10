@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 
-const ViewAppointments = () => {
-  const token = localStorage.getItem("doctortoken")
+const ViewAppointments1 = () => {
+  const token = localStorage.getItem("adminToken")
   const [tableItems, setTableItems] = useState([]);
   const [sortBy, setSortBy] = useState({ field: "", ascending: true });
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,7 +34,7 @@ const ViewAppointments = () => {
   useEffect(() => getAllAppointments(), []);
 
   if(!token){
-    return <Navigate to = "/DoctorSignIn"/>
+    return <Navigate to = "/SignIn"/>
   }
 
   const handleSearch = (e) => {
@@ -220,4 +220,4 @@ const ViewAppointments = () => {
   );
 };
 
-export default ViewAppointments;
+export default ViewAppointments1;

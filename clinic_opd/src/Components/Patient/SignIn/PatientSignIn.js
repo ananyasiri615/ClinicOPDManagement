@@ -26,7 +26,7 @@ function PatientSignIn() {
         console.log(response.data);
         if (response.data) {
           setLogin(true);
-          localStorage.setItem("token", response.data.p_id);
+          localStorage.setItem("patienttoken", response.data.p_id);
           console.log("User logged in:", response.data);
         } else {
           setLogin(false);
@@ -41,7 +41,7 @@ function PatientSignIn() {
   };
 
   if (login === true) {
-    return <Navigate to="/OurDoctor" />;
+    return <Navigate to="/Patient/ViewAndDeletePatients" />;
   }
 
   return (

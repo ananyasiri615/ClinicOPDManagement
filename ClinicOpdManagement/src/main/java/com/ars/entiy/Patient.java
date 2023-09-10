@@ -26,6 +26,7 @@ public class Patient {
 	@Column(length = 10, unique = true)
     private String phoneNumber;
     private String address;
+	@Column(unique = true)
     private String email;
     private String password;
     private String medicalHistory;

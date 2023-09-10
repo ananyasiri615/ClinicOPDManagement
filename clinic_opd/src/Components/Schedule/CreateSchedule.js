@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./CreateSchedule.css";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function CreateSchedule() {
+  const token = localStorage.getItem("doctortoken")
   const [doc_id, setDoc_id] = useState("");
   const [dayOfWeek, setDayOfWeek] = useState("");
   const [startTime, setStartTime] = useState("");
@@ -52,7 +53,9 @@ function CreateSchedule() {
         console.error("Registration failed", error);
       });
   };
-
+  if(!token){
+    return <Navigate to = "/DoctorSignIn"/>
+  }
   return (
     <div className="register">
       <div className="form" onSubmit={handleRegistrationSubmit}>

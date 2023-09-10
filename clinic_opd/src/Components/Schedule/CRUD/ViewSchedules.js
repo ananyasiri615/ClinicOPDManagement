@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 const ViewSchedules = () => {
   const [tableItems, setTableItems] = useState([]);
   const [sortBy, setSortBy] = useState({ field: "", ascending: true });
   const [searchQuery, setSearchQuery] = useState("");
   const [searchField, setSearchField] = useState("availability"); // Default search by schedule name
+  const token = localStorage.getItem("patienttoken")
 
   const sortTable = (field) => {
     let sortedItems = [...tableItems];
@@ -30,6 +32,10 @@ const ViewSchedules = () => {
   };
 
   useEffect(() => getAllSchedules(), []);
+
+  if(!token){
+    return <Navigate to = "/PatientSignIn"/>
+  }
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);

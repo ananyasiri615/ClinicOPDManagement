@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+// import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const ViewOnePatient = () => {
@@ -7,23 +7,23 @@ const ViewOnePatient = () => {
   const patients = location.state.patients;
   const navigate = useNavigate();
 
-  const handlePatientDelete = (patients) => {
-    axios
-      .delete(`http://localhost:8081/patients/delete/${patients.p_id}`)
-      .then((response) => {
-        console.log(response.data);
-        if (response.data) {
-          window.location.reload();
-          window.alert("Patient record Deleted Successfully.");
-          navigate("/ViewAndDeletePatients");
-        } else {
-          console.log("Nothing happened");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const handlePatientDelete = (patients) => {
+  //   axios
+  //     .delete(`http://localhost:8081/patients/delete/${patients.p_id}`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       if (response.data) {
+  //         window.location.reload();
+  //         window.alert("Patient record Deleted Successfully.");
+  //         navigate("/ViewAndDeletePatients");
+  //       } else {
+  //         console.log("Nothing happened");
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   return (
     <>
       <div class="container-md">
@@ -98,13 +98,13 @@ const ViewOnePatient = () => {
             >
               Edit Patient
             </button>
-            <button
+            {/* <button
               type="button"
               onClick={() => handlePatientDelete(patients)}
               class="btn ms-4 btn-dark fw-semibold btn-lg btn-block text-light"
             >
               Delete Patient
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

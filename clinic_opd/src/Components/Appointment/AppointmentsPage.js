@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./AppointmentsPage.css";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function AppointmentsPage() {
   const [p_id, setP_id] = useState("");
   const [doc_id, setDoc_id] = useState("");
   const [appointmentDate, setAppointmentDate] = useState("");
   const [appointmentTime, setAppointmentTime] = useState("");
+  const token = localStorage.getItem("patienttoken")
 
   const navigate = useNavigate(); // Initialize history
 
@@ -26,7 +27,7 @@ function AppointmentsPage() {
       doctor: { doc_id },
       appointmentDate,
       appointmentTime: convertTimeToExtendedFormat(appointmentTime),
-      status: "Scheduled",
+      status: "",
     }
     // Make a POST request using Axios
     axios
@@ -41,6 +42,10 @@ function AppointmentsPage() {
         console.error("Registration failed", error);
       });
   };
+
+  if(!token){
+    return <Navigate to = "/PatientSignIn"/>
+  }
 
   return (
     <div className="register">
@@ -113,9 +118,9 @@ function AppointmentsPage() {
               id="status"
               name="status"
               className="form__input"
-              value="Scheduled" 
+              value="" 
               readOnly
-              required
+              disabled
             />
           </div>
         </div>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ars.entiy.Patient;
@@ -79,6 +80,13 @@ public class PatientController {
 		}
 
         return patient;
+    }
+    
+    @GetMapping("/check-email")
+	@CrossOrigin(origins = "http://localhost:3000")
+    public boolean checkEmailExists(@RequestParam String email) {
+        // Check if the email exists in the database
+        return patientService.checkEmailExists(email);
     }
 
 }

@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 import { Link, Outlet } from "react-router-dom";
 
-const DoctorNavbar = () => {
+const AdminNavbar = () => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -20,28 +20,28 @@ const DoctorNavbar = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className="nav-link" to="/Doctor/ViewPatient">
-                  Our Patients
+                <Link className="nav-link" to="/Admin/registrationDoctor">
+                  Register A Doctor
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/Doctor/ViewAndDeleteDoctors">
-                  Edit Info
+                <Link className="nav-link" to="/Admin/ViewDoctor2">
+                  View Doctors
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/Doctor/CreateSchedule">
-                  Create Schedule
+                <Link className="nav-link" to="/Admin/ViewPatient1">
+                  View Patients
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/Doctor/ViewAndDeleteSchedules">
-                  Edit Schedule
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/Doctor/ViewAppointments">
+                <Link className="nav-link" to="/Admin/ViewAppointments1">
                   View Appointments
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/Admin/ViewSchedules1">
+                  View Schedules
                 </Link>
               </li>
             </ul>
@@ -50,7 +50,7 @@ const DoctorNavbar = () => {
       </nav>
       <Outlet />
     </div>
-  );
-};
+  )
+}
 
-export default DoctorNavbar;
+export default AdminNavbar

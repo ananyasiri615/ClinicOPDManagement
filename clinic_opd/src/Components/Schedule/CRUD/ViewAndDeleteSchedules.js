@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const ViewAndDeleteSchedules = () => {
+  const token = localStorage.getItem("doctortoken")
   const [tableItems, setTableItems] = useState([]);
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState({ field: "", ascending: true });
@@ -32,6 +33,9 @@ const ViewAndDeleteSchedules = () => {
   };
 
   useEffect(() => getAllSchedules(), []);
+  if(!token){
+    return <Navigate to = "/DoctorSignIn"/>
+  }
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);

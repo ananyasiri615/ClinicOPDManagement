@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const ViewAndDeleteAppointments = () => {
   const [tableItems, setTableItems] = useState([]);
@@ -8,6 +8,7 @@ const ViewAndDeleteAppointments = () => {
   const [sortBy, setSortBy] = useState({ field: "", ascending: true });
   const [searchQuery, setSearchQuery] = useState("");
   const [searchField, setSearchField] = useState("patientName"); // Default search by patient name
+  const token = localStorage.getItem("patienttoken")
 
   const sortTable = (field) => {
     let sortedItems = [...tableItems];
@@ -32,6 +33,10 @@ const ViewAndDeleteAppointments = () => {
   };
 
   useEffect(() => getAllAppointments(), []);
+
+  if(!token){
+    return <Navigate to = "/PatientSignIn"/>
+  }
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);

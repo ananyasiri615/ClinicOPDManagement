@@ -22,6 +22,10 @@ public class PatientService {
     }
 
     public Patient save(Patient patient) {
+    	// Check if the email already exists in the database
+        if (patientRepository.findByEmail(patient.getEmail()) != null) {
+            throw new RuntimeException("Email is already registered");
+        }
         return patientRepository.save(patient);
     }
 
@@ -36,4 +40,10 @@ public class PatientService {
 	public Patient getPatientByEmail(String email){
 		return patientRepository.findByEmail(email);
 	}
+	
+	public boolean checkEmailExists(String email) {
+        // Check if the email exists in the database
+		Patient existingPatient = patientRepository.findByEmail(email);
+        return existingPatient != null;
+    }
 }

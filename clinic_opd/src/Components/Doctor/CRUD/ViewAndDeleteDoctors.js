@@ -5,7 +5,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 const ViewAndDeleteDoctors = () => {
   const [tableItems, setTableItems] = useState([]);
   const navigate = useNavigate();
-  const doctortoken = localStorage.getItem("doctortoken")
+  const token = localStorage.getItem("doctortoken")
 
   const getAllDoctors = () => {
     axios
@@ -18,9 +18,10 @@ const ViewAndDeleteDoctors = () => {
   };
   
   useEffect(() => getAllDoctors(), []);
-  // if(!doctortoken){
-  //   return <Navigate to = "/PatientSignIn"/>
-  // }
+  if(!token){
+    return <Navigate to = "/DoctorSignIn"/>
+  }
+
   return (
     <>
       <div class="container-md">

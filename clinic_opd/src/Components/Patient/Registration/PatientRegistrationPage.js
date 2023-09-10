@@ -3,7 +3,6 @@ import axios from "axios";
 import "./PatientRegistrationPage.css";
 import { useNavigate } from "react-router-dom";
 
-
 function PatientRegistrationPage() {
   const [patientName, setPatientName] = useState("");
   const [age, setAge] = useState("");
@@ -15,6 +14,7 @@ function PatientRegistrationPage() {
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [dateOfBirth, setDateOfBirth] = useState("");
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate(); // Initialize history
 
   const handleDateOfBirthChange = (event) => {
@@ -39,64 +39,93 @@ function PatientRegistrationPage() {
     setPhoneNumber(number);
   };
 
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    if (id === "patientName") {
-      setPatientName(value);
-    }
-    if (id === "age") {
-      setAge(value);
-    }
-    if (id === "gender") {
-      setGender(value);
-    }
-    if (id === "phoneNumber") {
-      setPhoneNumber(value);
-    }
-    if (id === "address") {
-      setAddress(value);
-    }
-    if (id === "medicalHistory") {
-      setMedicalHistory(value);
-    }
-    if (id === "email") {
-      setEmail(value);
-    }
-    if (id === "dateOfBirth") {
-      setDateOfBirth(value);
-    }
-    if (id === "password") {
-      setPassword(value);
-    }
-    if (id === "confirmPassword") {
-      setConfirmPassword(value);
-    }
-  };
-
   const handleRegistrationSubmit = () => {
-    // event.preventDefault()
-    // const data = new FormData(event.currentTarget);
-    // console.log({"patientName": data.get("patientName")})
+    const newErrors = {};
+
+    // Check required fields
+    if (!patientName) {
+      newErrors.patientName = "Patient Name is required";
+    }
+    if (!dateOfBirth) {
+      newErrors.dateOfBirth = "Date Of Birth is required";
+    }
+    if (!gender) {
+      newErrors.gender = "Gender is required";
+    }
+    if (!phoneNumber) {
+      newErrors.phoneNumber = "Phone Number is required";
+    }
+    if (!address) {
+      newErrors.address = "Address is required";
+    }
+    if (!medicalHistory) {
+      newErrors.medicalHistory = "Medical History is required";
+    }
+    if (!email) {
+      newErrors.email = "Email is required";
+    }else {
+      // Check if email is already present in the database
+      // You can make a GET request to your server to check this
+      axios
+        .get(`http://localhost:8081/patients/check-email?email=${email}`)
+        .then((response) => {
+          if (response.data.exists) {
+            newErrors.email = "Email is already registered";
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking email:", error);
+        });
+      }
+    if (!password) {
+      newErrors.password = "Password is required";
+    }
+    if (!confirmPassword) {
+      newErrors.confirmPassword = "Confirm Password is required";
+    }
+
     // Check if the password and confirm password fields match
     if (password !== confirmPassword) {
-      // Passwords do not match, display an error message or take appropriate action
-      console.error("Passwords do not match");
-      // You can also show a user-friendly error message to the user
-      // For example, set an error state and display it on your form
-      // setError("Passwords do not match");
-      return; // Prevent the form from being submitted
+      newErrors.confirmPassword = "Passwords do not match";
     }
+
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(phoneNumber)) {
+      newErrors.phoneNumber = "Invalid phone number format";
+    }
+
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      newErrors.password =
+        "Password must be at least 8 characters with 1 lowercase, 1 uppercase, 1 number, and 1 special character";
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.(com|in)$/;
+    if (!emailRegex.test(email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    // If there are validation errors, set them in the state
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    // Clear any previous errors
+    setErrors({});
+
     // Create an object with the data you want to send to the server
     const registrationData = {
-      "patientName": patientName,
-      "age":age,
-      "gender": gender,
-      "phoneNumber": phoneNumber,
-      "address" : address,
-      "medicalHistory": medicalHistory,
-      "email": email,
-      "password" : password,
-      "dateOfBirth": dateOfBirth,
+      patientName: patientName,
+      age: age,
+      gender: gender,
+      phoneNumber: phoneNumber,
+      address: address,
+      medicalHistory: medicalHistory,
+      email: email,
+      password: password,
+      dateOfBirth: dateOfBirth,
     };
 
     // Make a POST request using Axios
@@ -106,7 +135,6 @@ function PatientRegistrationPage() {
         // Handle a successful response, e.g., show a success message
         console.log("Registration successful", response.data);
         navigate("/success");
-
       })
       .catch((error) => {
         // Handle any errors, e.g., display an error message
@@ -133,20 +161,28 @@ function PatientRegistrationPage() {
               required
               placeholder="Patient Name"
             />
+            {errors.patientName && (
+            <div className="error-message">{errors.patientName}</div>
+          )}
           </div>
-            <div className="dob-container">
-              <label htmlFor="dateOfBirth">Date of Birth:</label>
-              <input
-                type="date"
-                id="dateOfBirth"
-                value={dateOfBirth}
-                onChange={handleDateOfBirthChange}
-                required
-              />
-            </div>
-            <div className="form__input age">
+
+          <div className="dob-container">
+            <label htmlFor="dateOfBirth">Date of Birth:</label>
+            <input
+              type="date"
+              id="dateOfBirth"
+              value={dateOfBirth}
+              onChange={handleDateOfBirthChange}
+              required
+            />
+            {errors.dateOfBirth && (
+            <div className="error-message">{errors.dateOfBirth}</div>
+          )}
+          </div>
+
+          <div className="form__input age">
             <label className="form__label" htmlFor="age">
-            Age:
+              Age:
             </label>
             <input
               type="number"
@@ -160,6 +196,7 @@ function PatientRegistrationPage() {
               disabled
             />
           </div>
+
           <div className="form__input gender">
             <label className="form__label" htmlFor="gender">
               Gender:
@@ -176,11 +213,14 @@ function PatientRegistrationPage() {
               <option value="female">Female</option>
               <option value="other">Other</option>
             </select>
+            {errors.gender && (
+            <div className="error-message">{errors.gender}</div>
+          )}
           </div>
 
           <div className="form__input phoneNumber">
             <label className="form__label" htmlFor="phoneNumber">
-              Phone Number: 
+              Phone Number:
             </label>
             <input
               type="tel"
@@ -191,73 +231,99 @@ function PatientRegistrationPage() {
               placeholder="Phone number with 10 digits"
               required
             />
+            {errors.phoneNumber && (
+            <div className="error-message">{errors.phoneNumber}</div>
+          )}
           </div>
 
           <div className="form__input address">
             <label className="form__label" htmlFor="address">
-              Address 
+              Address
             </label>
             <input
               type="text"
               id="address"
               className="form__input"
               value={address}
-              onChange={(e) => handleInputChange(e)}
+              onChange={(e) => setAddress(e.target.value)}
               placeholder="Address with pincode"
+              required
             />
+            {errors.address && (
+            <div className="error-message">{errors.address}</div>
+          )}
           </div>
+
           <div className="form__input medicalHistory">
             <label className="form__label" htmlFor="medicalHistory">
-              Medical History 
+              Medical History
             </label>
             <input
               type="text"
               id="medicalHistory"
               className="form__input"
               value={medicalHistory}
-              onChange={(e) => handleInputChange(e)}
-              placeholder=""
+              onChange={(e) => setMedicalHistory(e.target.value)}
+              placeholder="Medical History"
+              required
             />
+            {errors.medicalHistory && (
+            <div className="error-message">{errors.medicalHistory}</div>
+          )}
           </div>
 
           <div className="form__input email">
             <label className="form__label" htmlFor="email">
-              Email 
+              Email
             </label>
             <input
               type="email"
               id="email"
               className="form__input"
               value={email}
-              onChange={(e) => handleInputChange(e)}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
+              required
             />
+            {errors.email && (
+            <div className="error-message">{errors.email}</div>
+          )}
           </div>
+
           <div className="form__input password">
             <label className="form__label" htmlFor="password">
-              Password 
+              Password
             </label>
             <input
               className="form__input"
               type="password"
               id="password"
               value={password}
-              onChange={(e) => handleInputChange(e)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
+              required
             />
+            {errors.password && (
+            <div className="error-message">{errors.password}</div>
+          )}
           </div>
+          
           <div className="form__input confirm-password">
             <label className="form__label" htmlFor="confirmPassword">
-              Confirm Password 
+              Confirm Password
             </label>
             <input
               className="form__input"
               type="password"
               id="confirmPassword"
               value={confirmPassword}
-              onChange={(e) => handleInputChange(e)}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm Password"
+              required
             />
+            {errors.confirmPassword && (
+            <div className="error-message">{errors.confirmPassword}</div>
+          )}
           </div>
         </div>
 

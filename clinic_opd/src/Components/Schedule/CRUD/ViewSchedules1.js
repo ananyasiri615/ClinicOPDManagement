@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 
-const ViewAppointments = () => {
-  const token = localStorage.getItem("doctortoken")
+const ViewSchedules1 = () => {
   const [tableItems, setTableItems] = useState([]);
   const [sortBy, setSortBy] = useState({ field: "", ascending: true });
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchField, setSearchField] = useState("patientName"); // Default search by patient name
+  const [searchField, setSearchField] = useState("availability"); // Default search by schedule name
+  const token = localStorage.getItem("adminToken")
 
   const sortTable = (field) => {
     let sortedItems = [...tableItems];
@@ -21,9 +21,9 @@ const ViewAppointments = () => {
     setSortBy({ field, ascending: !sortBy.ascending });
   };
 
-  const getAllAppointments = () => {
+  const getAllSchedules = () => {
     axios
-      .get("http://localhost:8081/appointment/allAppointments")
+      .get("http://localhost:8081/schedules/all")
       .then((response) => {
         console.log(response.data);
         setTableItems(response.data);
@@ -31,10 +31,10 @@ const ViewAppointments = () => {
       .catch((err) => console.log(err));
   };
 
-  useEffect(() => getAllAppointments(), []);
+  useEffect(() => getAllSchedules(), []);
 
   if(!token){
-    return <Navigate to = "/DoctorSignIn"/>
+    return <Navigate to = "/SignIn"/>
   }
 
   const handleSearch = (e) => {
@@ -45,22 +45,20 @@ const ViewAppointments = () => {
     setSearchField(e.target.value);
   };
 
-  const filteredAppointments = tableItems.filter((appointment) => {
-    const patientName = appointment.patient
-      ? appointment.patient.patientName.toLowerCase()
+  const filteredSchedules = tableItems.filter((schedule) => {
+    const dayOfWeek = schedule.dayOfWeek;
+    const doctorName = schedule.doctor
+      ? schedule.doctor.doctorName.toLowerCase()
       : "";
-    const doctorName = appointment.doctor
-      ? appointment.doctor.doctorName.toLowerCase()
-      : "";
-    const appointmentDate = appointment.appointmentDate || "";
+    const availability = schedule.availability.toLowerCase();
     const query = searchQuery.toLowerCase();
 
-    if (searchField === "patientName") {
-      return patientName.includes(query);
+    if (searchField === "dayOfWeek") {
+      return dayOfWeek.includes(query);
     } else if (searchField === "doctorName") {
       return doctorName.includes(query);
-    } else if (searchField === "appointmentDate") {
-      return appointmentDate.includes(query);
+    } else if (searchField === "availability") {
+      return availability.includes(query);
     }
 
     return false;
@@ -70,7 +68,7 @@ const ViewAppointments = () => {
     <>
       <div className="container-md">
         <br />
-        <h1 className="text-success">Appointments Info</h1>
+        <h1 className="text-success">Schedules Info</h1>
         <br />
         <div>
           <label htmlFor="searchField">Search by:</label>
@@ -80,9 +78,9 @@ const ViewAppointments = () => {
             value={searchField}
             style={{ marginLeft: "10px" }}
           >
-            <option value="patientName">Patient Name</option>
+            <option value="availability">Availability</option>
             <option value="doctorName">Doctor Name</option>
-            <option value="appointmentDate">Appointment Date</option>
+            <option value="dayOfWeek">Day Of The Week</option>
           </select>
         </div>
         <input
@@ -102,31 +100,31 @@ const ViewAppointments = () => {
             <tr>
               <th
                 scope="col"
-                onClick={() => sortTable("app_id")}
+                onClick={() => sortTable("sch_id")}
                 className={
-                  sortBy.field === "app_id"
+                  sortBy.field === "sch_id"
                     ? sortBy.ascending
                       ? "ascending"
                       : "descending"
                     : ""
                 }
               >
-                app_id 
-                {sortBy.field === "app_id" && (sortBy.ascending ? "⬆" : "⬇")}
+                sch_id 
+                {sortBy.field === "sch_id" && (sortBy.ascending ? "⬆" : "⬇")}
               </th>
               <th
                 scope="col"
-                onClick={() => sortTable("patient.patientName")}
+                onClick={() => sortTable("schedule.dayOfWeek")}
                 className={
-                  sortBy.field === "patient.patientName"
+                  sortBy.field === "schedule.dayOfWeek"
                     ? sortBy.ascending
                       ? "ascending"
                       : "descending"
                     : ""
                 }
               >
-                patientName 
-                {sortBy.field === "patient.patientName" &&
+                dayOfWeek 
+                {sortBy.field === "schedule.dayOfWeek" &&
                   (sortBy.ascending ? "⬆" : "⬇")}
               </th>
               <th
@@ -146,32 +144,32 @@ const ViewAppointments = () => {
               </th>
               <th
                 scope="col"
-                onClick={() => sortTable("appointmentDate")}
+                onClick={() => sortTable("startTime")}
                 className={
-                  sortBy.field === "appointmentDate"
+                  sortBy.field === "startTime"
                     ? sortBy.ascending
                       ? "ascending"
                       : "descending"
                     : ""
                 }
               >
-                appointmentDate 
-                {sortBy.field === "appointmentDate" &&
+                startTime 
+                {sortBy.field === "startTime" &&
                   (sortBy.ascending ? "⬆" : "⬇")}
               </th>
               <th
                 scope="col"
-                onClick={() => sortTable("appointmentTime")}
+                onClick={() => sortTable("endTime")}
                 className={
-                  sortBy.field === "appointmentTime"
+                  sortBy.field === "endTime"
                     ? sortBy.ascending
                       ? "ascending"
                       : "descending"
                     : ""
                 }
               >
-                appointmentTime 
-                {sortBy.field === "appointmentTime" &&
+                endTime 
+                {sortBy.field === "endTime" &&
                   (sortBy.ascending ? "⬆" : "⬇")}
               </th>
               <th
@@ -185,32 +183,34 @@ const ViewAppointments = () => {
                     : ""
                 }
               >
-                Status 
+                Availability 
                 {sortBy.field === "status" && (sortBy.ascending ? "⬆" : "⬇")}
               </th>
             </tr>
           </thead>
           <tbody>
-          {filteredAppointments.map((appointment) => (
-              <tr key={appointment.app_id}>
-                <th scope="row">{appointment.app_id}</th>
+          {filteredSchedules.map((schedule) => (
+              <tr key={schedule.sch_id}>
+                <th scope="row">{schedule.sch_id}</th>
                 <td>
-                  {appointment.patient ? appointment.patient.patientName : ""}
+                  {schedule.dayOfWeek === null
+                    ? "N/A"
+                    : schedule.dayOfWeek}
                 </td>
                 <td>
-                  {appointment.doctor ? appointment.doctor.doctorName : ""}
+                  {schedule.doctor ? schedule.doctor.doctorName : ""}
                 </td>
                  <td>
-                  {appointment.appointmentDate === null
+                  {schedule.startTime === null
                     ? "N/A"
-                    : appointment.appointmentDate}
+                    : schedule.startTime}
                 </td>
                 <td>
-                  {appointment.appointmentTime === null
+                  {schedule.endTime === null
                     ? "N/A"
-                    : appointment.appointmentTime}
+                    : schedule.endTime}
                 </td>
-                <td>{appointment.status}</td>
+                <td>{schedule.availability}</td>
               </tr>
             ))}
           </tbody>
@@ -220,4 +220,4 @@ const ViewAppointments = () => {
   );
 };
 
-export default ViewAppointments;
+export default ViewSchedules1;

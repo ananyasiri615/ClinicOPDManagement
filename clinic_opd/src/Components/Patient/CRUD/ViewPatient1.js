@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import "./ViewPatients.css";
 import { Navigate } from "react-router-dom";
 
-const ViewPatient = () => {
+const ViewPatient1 = () => {
   const [tableItems, setTableItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchField, setSearchField] = useState("patientName");
-  const token = localStorage.getItem("doctortoken")
+  const token = localStorage.getItem("adminToken")
 
   const getAllPatients = () => {
     axios
@@ -21,7 +21,7 @@ const ViewPatient = () => {
 
   useEffect(() => getAllPatients(), []);
   if(!token){
-    return <Navigate to = "/PatientSignIn"/>
+    return <Navigate to = "/SignIn"/>
   }
 
   const handleSearch = (e) => {
@@ -104,4 +104,4 @@ const ViewPatient = () => {
   );
 };
 
-export default ViewPatient;
+export default ViewPatient1;

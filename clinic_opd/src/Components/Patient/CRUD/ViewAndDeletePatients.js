@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const ViewAndDeletePatients = () => {
   const [tableItems, setTableItems] = useState([]);
   const navigate = useNavigate();
+  const token = localStorage.getItem("patienttoken")
   
   const getAllPatients = () => {
     axios
@@ -16,6 +17,9 @@ const ViewAndDeletePatients = () => {
       .catch((err) => console.log(err));
   };
   useEffect(() => getAllPatients(), []);
+  if(!token){
+    return <Navigate to = "/PatientSignIn"/>
+  }
 
   return (
     <>

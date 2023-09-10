@@ -1,17 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import "./ViewPatients.css";
+import "./ViewDoctors.css";
 import { Navigate } from "react-router-dom";
 
-const ViewPatient = () => {
+
+const ViewDoctors2 = () => {
   const [tableItems, setTableItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchField, setSearchField] = useState("patientName");
-  const token = localStorage.getItem("doctortoken")
+  const [searchField, setSearchField] = useState("doctorName"); // Default search by doctor name
+  const token = localStorage.getItem("adminToken")
 
-  const getAllPatients = () => {
+  const getAllDoctors = () => {
     axios
-      .get("http://localhost:8081/patients/all")
+      .get("http://localhost:8081/doctors/all")
       .then((response) => {
         console.log(response.data);
         setTableItems(response.data);
@@ -19,27 +20,28 @@ const ViewPatient = () => {
       .catch((err) => console.log(err));
   };
 
-  useEffect(() => getAllPatients(), []);
+  useEffect(() => getAllDoctors(), []);
   if(!token){
-    return <Navigate to = "/PatientSignIn"/>
+    return <Navigate to = "/SignIn"/>
   }
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
+
   const handleSearchFieldChange = (e) => {
     setSearchField(e.target.value);
   };
 
-  const filteredPatients = tableItems.filter((patient) => {
-    const patientName = patient.patientName.toLowerCase();
-    const medicalHistory = patient.medicalHistory.toLowerCase();
+  const filteredDoctors = tableItems.filter((doctor) => {
+    const doctorName = doctor.doctorName.toLowerCase();
+    const department = doctor.department.toLowerCase();
     const query = searchQuery.toLowerCase();
 
-    if (searchField === "patientName") {
-      return patientName.includes(query);
-    }else if (searchField === "medicalHistory") {
-      return medicalHistory.includes(query);
+    if (searchField === "doctorName") {
+      return doctorName.includes(query);
+    } else if (searchField === "department") {
+      return department.includes(query);
     }
 
     return false;
@@ -49,7 +51,7 @@ const ViewPatient = () => {
     <>
       <div className="container-md">
         <br />
-        <h1 className="text">Our patients</h1>
+        <h1 className="text">Our Doctors</h1>
         <br />
         <div>
           <label htmlFor="searchField">Search by:</label>
@@ -59,8 +61,8 @@ const ViewPatient = () => {
             value={searchField}
             style={{ marginLeft: "10px" }}
           >
-            <option value="patientName">Patient Name</option>
-            <option value="medicalHistory">Medical History</option>
+            <option value="doctorName">Doctor Name</option>
+            <option value="department">Department</option>
           </select>
         </div>
         <input
@@ -78,23 +80,19 @@ const ViewPatient = () => {
         <table className="table table-striped table-hover">
           <thead>
             <tr>
-              <th scope="col">p_id</th>
-              <th scope="col">Patient Name</th>
+              <th scope="col">doc_id</th>
+              <th scope="col">Doctor Name</th>
               <th scope="col">Email</th>
-              <th scope="col">Age</th>
-              <th scope="col">Medical History</th>
-              <th scope="col">Gender</th>
+              <th scope="col">Department</th>
             </tr>
           </thead>
           <tbody>
-            {filteredPatients.map((patients) => (
-              <tr key={patients.p_id}>
-                <th scope="row">{patients.p_id}</th>
-                <td>{patients.patientName}</td>
-                <td>{patients.email}</td>
-                <td>{patients.age}</td>
-                <td>{patients.medicalHistory}</td>
-                <td>{patients.gender}</td>
+            {filteredDoctors.map((doctors) => (
+              <tr key={doctors.doc_id}>
+                <th scope="row">{doctors.doc_id}</th>
+                <td>{doctors.doctorName}</td>
+                <td>{doctors.email}</td>
+                <td>{doctors.department}</td>
               </tr>
             ))}
           </tbody>
@@ -104,4 +102,4 @@ const ViewPatient = () => {
   );
 };
 
-export default ViewPatient;
+export default ViewDoctors2;

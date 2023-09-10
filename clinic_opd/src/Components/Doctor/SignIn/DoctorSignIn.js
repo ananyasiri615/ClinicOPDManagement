@@ -41,7 +41,7 @@ function DoctorSignIn() {
   };
 
   if (login === true) {
-    return <Navigate to="/ViewAndDeleteDoctors" />;
+    return <Navigate to="/Doctor/ViewAndDeleteDoctors" />;
   }
 
   return (

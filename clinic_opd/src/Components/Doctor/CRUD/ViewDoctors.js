@@ -1,11 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./ViewDoctors.css";
+import { Navigate } from "react-router-dom";
+
 
 const ViewDoctors = () => {
   const [tableItems, setTableItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchField, setSearchField] = useState("doctorName"); // Default search by doctor name
+  const token = localStorage.getItem("patienttoken")
 
   const getAllDoctors = () => {
     axios
@@ -18,6 +21,9 @@ const ViewDoctors = () => {
   };
 
   useEffect(() => getAllDoctors(), []);
+  if(!token){
+    return <Navigate to = "/PatientSignIn"/>
+  }
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);

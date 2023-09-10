@@ -23,6 +23,10 @@ public class DoctorService {
     }
 
     public Doctor save(Doctor doctor) {
+    	// Check if the email already exists in the database
+        if (doctorRepository.findByEmail(doctor.getEmail()) != null) {
+            throw new RuntimeException("Email is already registered");
+        }
         return doctorRepository.save(doctor);
     }
 
@@ -38,6 +42,10 @@ public class DoctorService {
 		return doctorRepository.findByEmail(email);
 	}
 	
-	
+	public boolean checkEmailExists(String email) {
+        // Check if the email exists in the database
+        Doctor existingDoctor = doctorRepository.findByEmail(email);
+        return existingDoctor != null;
+    }
 
 }
