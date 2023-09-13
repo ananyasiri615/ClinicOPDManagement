@@ -217,7 +217,7 @@ const ViewAndDeleteAppointments = () => {
                   <button
                     type="button"
                     onClick={() => {
-                      navigate("/ViewOneAppointment", {
+                      navigate("/Patient/ViewOneAppointment", {
                         state: { appointments: appointment },
                       });
                     }}

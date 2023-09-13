@@ -8,6 +8,7 @@ import com.ars.entiy.Patient;
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Integer>{
 	Patient findByEmail(String email);
+	Patient findById(int p_id);
 
 }
 

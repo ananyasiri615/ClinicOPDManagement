@@ -129,9 +129,9 @@ const ViewAndDeleteSchedules = () => {
               </th>
               <th
                 scope="col"
-                onClick={() => sortTable("doctor.doctorName")}
+                onClick={() => sortTable("schedule.doctor.doctorName")}
                 className={
-                  sortBy.field === "doctor.doctorName"
+                  sortBy.field === "schedule.doctor.doctorName"
                     ? sortBy.ascending
                       ? "ascending"
                       : "descending"
@@ -139,7 +139,7 @@ const ViewAndDeleteSchedules = () => {
                 }
               >
                 doctorName 
-                {sortBy.field === "doctor.doctorName" &&
+                {sortBy.field === "schedule.doctor.doctorName" &&
                   (sortBy.ascending ? "⬆" : "⬇")}
               </th>
               <th
@@ -216,7 +216,7 @@ const ViewAndDeleteSchedules = () => {
                   <button
                     type="button"
                     onClick={() => {
-                      navigate("/ViewOneSchedule", {
+                      navigate("/Doctor/ViewOneSchedule", {
                         state: { schedules: schedule },
                       });
                     }}

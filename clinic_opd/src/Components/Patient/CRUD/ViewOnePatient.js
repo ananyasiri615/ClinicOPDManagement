@@ -1,36 +1,35 @@
-import React from "react";
-// import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import {useNavigate } from "react-router-dom";
 
 const ViewOnePatient = () => {
-  const location = useLocation();
-  const patients = location.state.patients;
+  const [patients, setPatients] = useState({});
+  const token = localStorage.getItem("patienttoken")
+  // const patients = location.state.patients;
   const navigate = useNavigate();
 
-  // const handlePatientDelete = (patients) => {
-  //   axios
-  //     .delete(`http://localhost:8081/patients/delete/${patients.p_id}`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       if (response.data) {
-  //         window.location.reload();
-  //         window.alert("Patient record Deleted Successfully.");
-  //         navigate("/ViewAndDeletePatients");
-  //       } else {
-  //         console.log("Nothing happened");
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  const getPatient = () => {
+    axios
+      .get(`http://localhost:8081/patients/id/${token}`)
+      .then((response) => {
+        if(response.data){
+          setPatients(response.data);
+        }else{
+        console.log("not found");
+        }
+      })
+      .catch((err) => console.log(err))
+  }
+
+  useEffect((()=>{getPatient()}),[]);
+
   return (
     <>
       <div class="container-md">
         <div class="container-md mt-3 px-5 text-center">
           <div class="container shadow border pb-3 bg-body-tertiary">
             <p class="fw-semibold mt-3 h2 text-secondary-emphasis text-center">
-              Patint Details
+              Patient Details
             </p>
             <hr />
             <div class="row mb-3">

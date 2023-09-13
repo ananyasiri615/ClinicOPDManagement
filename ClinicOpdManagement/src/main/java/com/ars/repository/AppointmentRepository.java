@@ -16,6 +16,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     @Query("SELECT COUNT(a.appointmentDate) FROM Appointment a WHERE a.appointmentDate = :app_date")
     int countAppBydate(@Param("app_date") Date appDate);
     List<Appointment> findByAppointmentDate(Date date);
+//    Appointment findByPatient(int p_id);
+//    List<Appointment> findByPid(int p_id);
 
 }
 

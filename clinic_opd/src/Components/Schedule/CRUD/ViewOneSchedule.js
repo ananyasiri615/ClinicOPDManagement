@@ -5,8 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const ViewOneSchedule = () => {
   const location = useLocation();
   console.log(location);
-  const schedules =
-    location.state.schedules === null ? "" : location.state.schedules;
+  const schedules = location.state.schedules === null ? "" : location.state.schedules;
   const navigate = useNavigate();
 
   const handleScheduleDelete = (schedules) => {
@@ -89,7 +88,7 @@ const ViewOneSchedule = () => {
               class="btn btn-dark fw-semibold btn-lg btn-block text-light"
               type="button"
               onClick={() => {
-                navigate("/Updateschedule", { state: { schedules } });
+                navigate("/Doctor/Updateschedule", { state: { schedules } });
               }}
             >
               Edit schedule

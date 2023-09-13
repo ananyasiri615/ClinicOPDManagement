@@ -192,6 +192,7 @@ const ViewSchedules = () => {
           {filteredSchedules.map((schedule) => (
               <tr key={schedule.sch_id}>
                 <th scope="row">{schedule.sch_id}</th>
+              
                 <td>
                   {schedule.dayOfWeek === null
                     ? "N/A"

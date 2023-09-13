@@ -56,8 +56,6 @@ public class AppointmentController {
 
         appointment.setPatient(patient);
         appointment.setDoctor(doctor);
-//        appointment.setAppointmentDate(appointment.getAppointmentDate());
-//   	    appointment.setAppointmentTime(appointment.getAppointmentTime());
         appointmentService.addAppointment(appointment);
         return "Appointment booked successfully";
     }
@@ -84,10 +82,18 @@ public class AppointmentController {
     }
 
     @GetMapping("/getAppointmentByDate/{appointmentDate}")
+	@CrossOrigin(origins = "http://localhost:3000")
     public List<Appointment> getAppointmentByDate(@PathVariable Date date){
     	
     	return appointmentService.getAppointmentByDate(date);
     }
-   
+//    
+//    @GetMapping("/patientId/{p_id}")
+//	@CrossOrigin(origins = "http://localhost:3000")
+//    public List<Appointment> findByPatient(@PathVariable int p_id){
+//    	List<Appointment> appList =  appointmentService.getAppointmentsByPatientId(p_id);
+//    	return appList;
+//    }
+//   
 	
 }

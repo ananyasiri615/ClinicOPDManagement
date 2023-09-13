@@ -104,4 +104,17 @@ public class AppointmentService {
     public List<Appointment> getAppointmentByDate(Date date) {
         return appointmentRepository.findByAppointmentDate(date);
     }
+    
+//    public Appointment getByPatient(int p_id) {
+//        Appointment appointment = appointmentRepository.findByPatient_P_id(p_id);
+////        if (appointment.isPresent()) {
+////            return appointment.get();
+////        } else {
+////            throw new AppointmentNotFoundException("Appointment with ID " + p_id + " not found");
+////        }
+//        return appointment;
+//    }
+//    public List<Appointment> getAppointmentsByPatientId(int p_id) {
+//        return appointmentRepository.findByPid(p_id);
+//    }
 }

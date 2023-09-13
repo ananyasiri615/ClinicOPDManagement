@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./CreateSchedule.css";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -11,6 +11,12 @@ function CreateSchedule() {
   const [endTime, setEndTime] = useState("");
   const [availability, setAvailability] = useState("Available"); // Default to Available
   const navigate = useNavigate(); // Initialize history
+
+  useEffect(() => {
+    if (token) {
+      setDoc_id(token);
+    }
+  }, [token]);
 
   function convertTimeToExtendedFormat(time) {
     // Split the time string into hours and minutes
@@ -72,8 +78,9 @@ function CreateSchedule() {
               className="form__input"
               value={doc_id}
               onChange={(e) => setDoc_id(e.target.value)}
-              required
-              placeholder="Doctor ID"
+              // required
+              // placeholder="Doctor ID"
+              disabled
             />
           </div>
           <div className="form__input dayOfWeek">

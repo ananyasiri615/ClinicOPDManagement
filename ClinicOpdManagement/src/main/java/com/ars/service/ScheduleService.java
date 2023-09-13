@@ -26,9 +26,7 @@ public class ScheduleService {
 	
 	@Autowired
 	RestTemplate restTemplate;
-	
-	@Autowired
-	EmailService emailService;
+
 
     public Iterable<Schedule> getAllSchedules() {
         return scheduleRepository.findAll();

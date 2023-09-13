@@ -1,7 +1,16 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, Outlet, Navigate } from "react-router-dom";
 
 const DoctorNavbar = () => {
+  const [loginStatus, setLoginStatus] = useState(true);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    setLoginStatus(false);
+  }
+  if(loginStatus === false){
+    return <Navigate to="/" />;
+  }
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -25,7 +34,7 @@ const DoctorNavbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/Doctor/ViewAndDeleteDoctors">
+                <Link className="nav-link" to="/Doctor/ViewOneDoctor">
                   Edit Info
                 </Link>
               </li>
@@ -44,10 +53,58 @@ const DoctorNavbar = () => {
                   View Appointments
                 </Link>
               </li>
+              <li>
+                  <button
+                    type="button"
+                    class="btn btn-light dropdown-item"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                  >
+                    Logout
+                  </button>
+                </li>
             </ul>
           </div>
         </div>
       </nav>
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                Logout
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">Are you sure you want to Logout?</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-outline-success"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+              <button type="button" class="btn btn-success"  onClick={handleLogout} data-bs-dismiss="modal">
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <Outlet />
     </div>
   );

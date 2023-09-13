@@ -15,7 +15,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 import java.sql.Time;
 import java.util.List;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "appointments")

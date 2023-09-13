@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./AppointmentsPage.css";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -8,9 +8,16 @@ function AppointmentsPage() {
   const [doc_id, setDoc_id] = useState("");
   const [appointmentDate, setAppointmentDate] = useState("");
   const [appointmentTime, setAppointmentTime] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const token = localStorage.getItem("patienttoken")
 
   const navigate = useNavigate(); // Initialize history
+
+  useEffect(() => {
+    if (token) {
+      setP_id(token);
+    }
+  }, [token]);
 
   function convertTimeToExtendedFormat(time) {
     // Split the time string into hours and minutes
@@ -21,6 +28,19 @@ function AppointmentsPage() {
   }
 
   const handleRegistrationSubmit = () => {
+    // Get the current date and time
+    const currentDate = new Date();
+    const currentDateTime = currentDate.toISOString();
+
+    // Check if the selected appointment date and time are in the future
+    const selectedDateTime = `${appointmentDate}T${convertTimeToExtendedFormat(
+      appointmentTime
+    )}`;
+    if (selectedDateTime <= currentDateTime) {
+      // Set error message and style
+      setErrorMessage("Invalid appointment date and time. Please select a future date and time.");
+      return;
+    }
 
     const newAppointment = {
       patient: { p_id },
@@ -28,7 +48,8 @@ function AppointmentsPage() {
       appointmentDate,
       appointmentTime: convertTimeToExtendedFormat(appointmentTime),
       status: "",
-    }
+    };
+
     // Make a POST request using Axios
     axios
       .post("http://localhost:8081/appointment/bookAppointment", newAppointment)
@@ -43,6 +64,7 @@ function AppointmentsPage() {
       });
   };
 
+
   if(!token){
     return <Navigate to = "/PatientSignIn"/>
   }
@@ -52,6 +74,11 @@ function AppointmentsPage() {
       <div className="form" onSubmit={handleRegistrationSubmit}>
         <h2>New Appointment</h2>
         <div className="form-body">
+        {errorMessage && (
+            <p className="error-message" style={{ color: "red" }}>
+              {errorMessage}
+            </p>
+          )}
           <div className="form__input p_id">
             <label className="form__label" htmlFor="p_id">
               Patient ID:
@@ -63,8 +90,9 @@ function AppointmentsPage() {
               className="form__input"
               value={p_id}
               onChange={(e) => setP_id(e.target.value)}
-              required
-              placeholder="Patient ID"
+              // required
+              // placeholder="Patient ID"
+              disabled
             />
           </div>
           <div className="form__input doc_id">

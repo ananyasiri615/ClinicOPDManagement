@@ -5,7 +5,6 @@ import DoctorRegistrationPage from "./Components/Doctor/Registration/DoctorRegis
 import DoctorSignIn from "./Components/Doctor/SignIn/DoctorSignIn";
 import HomePage from "./Components/Main/Home/HomePage";
 import AboutUs from "./Components/Main/Home/AboutUs";
-import ContactUs from "./Components/Main/Home/ContactUs";
 import Navbar from "./Components/Main/Navbar";
 import ViewDoctors2 from "./Components/Doctor/CRUD/ViewDoctors2";
 import ViewDoctors1 from "./Components/Doctor/CRUD/ViewDoctors1";
@@ -47,7 +46,6 @@ function App() {
         <Route path="/PatientSignIn" element={<><Navbar/><PatientSignIn /></>} />
         <Route path="/DoctorSignIn" element={<><Navbar/><DoctorSignIn /></>} />
         <Route path="/AboutUs" element={<><Navbar/><AboutUs /></>} />
-        <Route path="/ContactUs" element={<><Navbar/><ContactUs /></>} />
         <Route path="/ViewDoctors1" element={<><Navbar/><ViewDoctors1 /></>} />
         <Route path="/success" element={<SuccessAnimation />} />
 

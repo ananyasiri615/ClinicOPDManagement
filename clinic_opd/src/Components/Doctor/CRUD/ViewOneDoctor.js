@@ -1,30 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 const ViewOneDoctor = () => {
-  const location = useLocation();
-  console.log(location);
-  const doctors = location.state.doctors;
+  const [doctors, setDoctors] = useState({});
+  const token = localStorage.getItem("doctortoken")
+  // const doctors = location.state.doctors;
   const navigate = useNavigate();
 
-  const handleDoctorDelete = (doctors) =>{
-    axios.delete(`http://localhost:8081/doctors/delete/${doctors.doc_id}`)
-    .then(response => {
-      console.log(response.data);
-      if(response.data){
-        window.location.reload();
-        window.alert("Doctor record Deleted Successfully.")
-        navigate("/ViewAndDeleteDoctors");
-      }
-      else{
-        console.log("Nothing happened");
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    })
+  const getDoctor = () => {
+    axios
+      .get(`http://localhost:8081/doctors/id/${token}`)
+      .then((response) => {
+        if(response.data){
+          setDoctors(response.data);
+        }else{
+        console.log("not found");
+        }
+      })
+      .catch((err) => console.log(err))
   }
+
+  useEffect((()=>{getDoctor()}),[]);
   return (
     <>
       <div class="container-md">
@@ -107,13 +104,6 @@ const ViewOneDoctor = () => {
               >
                 Edit Doctor
               </button>
-              <button
-                    type="button"
-                    onClick={() => handleDoctorDelete(doctors)}
-                    class="btn ms-4 btn-dark fw-semibold btn-lg btn-block text-light"
-                  >
-                    Delete Doctor
-                  </button>
           </div>
         </div>
       </div>

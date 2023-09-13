@@ -24,9 +24,6 @@ public class ReminderService {
 	@Autowired
 	RestTemplate restTemplate;
 	
-	@Autowired
-	EmailService emailService;
-	
 	Patient patient;
 	
 	Reminder reminder;
@@ -64,36 +61,4 @@ public class ReminderService {
         return reminderRepository.findAll();
     }
     
-    public String sendMailToAllAppointment(Date date) {
-        List<Appointment> appointments = restTemplate.getForObject("http://localhost:2003/api/appointments/getAppointmentByDate/" + date, List.class);
-        int size = appointments.size();
-        String response = "";
-
-        for (int i = 0; i < size; i++) {
-            String actualStatus = appointments.get(i).getStatus();
-            String confirmedStatus = "Confirmed";
-            String pendingStatus = "Pending";
-            String canceledStatus = "Canceled";
-            String rescheduledStatus = "Rescheduled";
-
-            String email = reminder.getAppointment().getPatient().getEmail();
-            String appointmentDate = appointments.get(i).getAppointmentDate().toString();
-
-            if (actualStatus.equalsIgnoreCase(confirmedStatus)) {
-                String subject = "Appointment Confirmation";
-                String message = "You have a confirmed appointment on: " + appointmentDate;
-                emailService.sendNotificationEmail(email, subject, message);
-                // Optionally, you can store the response from sending the email in your response variable
-                response = "Email sent to " + email;
-            } else if (actualStatus.equalsIgnoreCase(pendingStatus)) {
-                // Handle Pending status
-            } else if (actualStatus.equalsIgnoreCase(canceledStatus)) {
-                // Handle Canceled status
-            } else if (actualStatus.equalsIgnoreCase(rescheduledStatus)) {
-                // Handle Rescheduled status
-            }
-        }
-
-        return response;
-    }
 }
